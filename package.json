@@ -1,14 +1,27 @@
 {
 	"name": "pdfpreview",
-	"displayName": "PDFPreview",
+	"displayName": "PDF Preview",
 	"description": "Open PDF in Preview",
-	"version": "0.0.1",
+	"version": "1.0.0",
+	"publisher": "corentinartaud",
 	"engines": {
 		"vscode": "^1.48.0"
 	},
 	"categories": [
-		"Other"
+		"Programming Languages"
 	],
+	"keywords": [
+		"pdf",
+		"pdf preview"
+	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/corentinartaud/vscode-pdfpreview.git"
+	},
+	"bugs": {
+		"url": "https://github.com/corentinartaud/vscode-pdfpreview/issues"
+	},
+	"icon": "vscode-pdfpreview.png",
 	"activationEvents": [
 		"onCustomEditor:pdf.preview"
 	],
@@ -24,6 +37,7 @@
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
+		"package": "npx vsce package",
 		"compile": "tsc -p ./",
 		"lint": "eslint src --ext ts",
 		"watch": "tsc -watch -p ./",
