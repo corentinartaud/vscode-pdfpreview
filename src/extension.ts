@@ -15,6 +15,32 @@ class FileOpener implements vscode.CustomReadonlyEditorProvider {
 		// Close the opened active editor
 		vscode.commands.executeCommand('workbench.action.closeActiveEditor');
 		// Open the pdf file with native app
+		const pageMatch = /page=(\d+)/.exec(`${document.uri.query}&${document.uri.fragment}`);
+		const page = pageMatch ? Number(pageMatch[1]) : undefined;
+		const config = vscode.workspace.getConfiguration('pdfpreview');
+		const command = config.get<string>('openCommand', '');
+		const configuredArgs = config.get<string[]>('openArgs', []);
+		const args = configuredArgs.reduce<string[]>((result, arg) => {
+			if (arg.includes('{page}') && page === undefined) {
+				return result;
+			}
+			const resolved = arg.replace(/\{page\}/g, page === undefined ? '' : String(page)).trim();
+			if (resolved.length > 0) {
+				result.push(resolved);
+			}
+			return result;
+		}, []);
+		if (command.length > 0) {
+			const { spawn } = require('child_process');
+			const child = spawn(command, [...args, document.uri.path], {
+				detached: true,
+				stdio: 'ignore',
+				windowsHide: true
+			});
+			child.on('error', (): void => {});
+			child.unref();
+			return;
+		}
 		await open(document.uri.path);
 	}
 }
