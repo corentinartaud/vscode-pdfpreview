@@ -33,7 +33,25 @@
 			"selector": [{
 				"filenamePattern": "*.pdf"
 			}]
-		}]
+		},
+		"configuration": {
+			"title": "PDF Preview",
+			"properties": {
+				"pdfpreview.openCommand": {
+					"type": "string",
+					"default": "",
+					"description": "Command used to open the PDF file. Leave empty to use the default application."
+				},
+				"pdfpreview.openArgs": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [],
+					"description": "Arguments passed to the open command. Use {page} to insert the page number from the URI fragment."
+				}
+			}
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
